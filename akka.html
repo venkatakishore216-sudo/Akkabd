@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Merged Countdown</title>
+
+  <style>
+    html,body{
+      height:100%;
+      margin:0;
+    }
+
+    body{
+      background-image: url('Akka.png'); /* First background */
+      background-size: cover;
+      background-position: center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, sans-serif;
+      overflow:hidden;
+      transition: background-image 1s ease;
+    }
+
+    /* Box */
+    .box{
+      background: rgba(255,255,255,0.85);
+      padding: 28px 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      text-align: center;
+      min-width: 260px;
+      z-index: 10;
+      transition: 0.6s;
+    }
+
+    .title{
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .count{
+      font-size: 72px;
+      line-height: 1;
+      margin: 6px 0 10px 0;
+      font-weight: 700;
+      letter-spacing: -2px;
+    }
+
+    .msg{
+      font-size: 18px;
+      margin-top: 10px;
+      color:#222;
+      display:none;
+    }
+
+    /* Paper Confetti */
+    .paper {
+      width: 12px;
+      height: 12px;
+      background: white;
+      position: absolute;
+      opacity: 0.9;
+      animation: fly 2s linear forwards;
+    }
+
+    @keyframes fly {
+      to {
+        transform: translate(calc(200px - 400px * random()),
+                             calc(200px - 400px * random())) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box" id="box">
+    <h2 class="title" id="title">Starting in</h2>
+    <div id="count" class="count">3</div>
+    <p id="message" class="msg">18 DECEMBER<br>HAPPY BIRTHDAY AKKA</p>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  let remaining = 3;
+  const el = document.getElementById('count');
+  const title = document.getElementById('title');
+  const msg = document.getElementById('message');
+  const box = document.getElementById('box');
+
+  el.textContent = remaining;
+
+  const timer = setInterval(() => {
+    remaining -= 1;
+
+    if (remaining <= 0) {
+      clearInterval(timer);
+
+      el.style.display = "none";
+      title.style.display = "none";
+
+      msg.style.display = "block";
+
+      /* Change background after countdown */
+      document.body.style.backgroundImage = "url('akka2.png')";
+
+      /* Make box larger */
+      box.style.padding = "40px";
+      box.style.borderRadius = "20px";
+
+      /* Paper blast effect */
+      launchPaper();
+
+    } else {
+      el.textContent = String(remaining);
+    }
+  }, 1000);
+});
+
+function launchPaper() {
+  for (let i = 0; i < 35; i++) {
+    const paper = document.createElement("div");
+    paper.classList.add("paper");
+    document.body.appendChild(paper);
+
+    paper.style.left = (window.innerWidth / 2) + "px";
+    paper.style.top = (window.innerHeight / 2) + "px";
+
+    setTimeout(() => paper.remove(), 2000);
+  }
+}
+</script>
+
+</body>
+</html>
